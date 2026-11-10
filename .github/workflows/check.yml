@@ -1,0 +1,23 @@
+name: M1 检查
+on:
+  push:
+  pull_request:
+jobs:
+  macos-arm64:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.15.0
+      - uses: dtolnay/rust-toolchain@1.87.0
+        with:
+          components: rustfmt, clippy
+      - name: 检查目标架构
+        run: test "$(uname -m)" = arm64
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - run: pnpm build

@@ -1,0 +1,39 @@
+[package]
+name = "sixbox"
+version = "0.1.0"
+description = "SixBox 工具箱"
+authors = ["SixLab（六楼实验室）"]
+license = "AGPL-3.0-only"
+edition = "2021"
+rust-version = "1.87"
+
+[lib]
+name = "sixbox_lib"
+
+[[bin]]
+name = "sixbox"
+path = "src/main.rs"
+required-features = ["desktop"]
+
+[features]
+default = ["desktop"]
+desktop = ["dep:tauri", "dep:tauri-build"]
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3", optional = true , features = [] }
+
+[dependencies]
+tauri = { version = "=2.11.6", features = ["tray-icon", "image-png"], optional = true }
+fs2 = "0.4.3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "process", "io-util", "sync", "time", "signal"] }
+
+[profile.dev]
+debug = 0
+incremental = false
+
+[profile.release]
+debug = 0
+strip = true
+incremental = false

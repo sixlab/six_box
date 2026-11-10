@@ -1,0 +1,29 @@
+{
+  "name": "sixbox",
+  "version": "0.1.0",
+  "license": "AGPL-3.0-only",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@12.15.0",
+  "engines": { "node": ">=24.14.0 <25" },
+  "scripts": {
+    "dev": "node scripts/desktop.mjs dev",
+    "build": "node scripts/desktop.mjs build",
+    "build:assets": "node scripts/build.mjs",
+    "prepare:runtime": "node scripts/prepare-runtime.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm test:ts && pnpm test:rust",
+    "test:ts": "node --test packages/core/test/*.test.ts",
+    "test:rust": "node scripts/build.mjs && node scripts/prepare-runtime.mjs && node scripts/cargo.mjs test --locked",
+    "check": "pnpm typecheck && pnpm test && node scripts/cargo.mjs clippy --all-targets -- -D warnings && node scripts/cargo.mjs fmt -- --check",
+    "verify:bundle": "node scripts/verify-bundle.mjs"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.12.4",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "esbuild": "0.28.2",
+    "typescript": "7.0.2"
+  }
+}
